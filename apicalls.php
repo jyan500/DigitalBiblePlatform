@@ -1,8 +1,23 @@
 <?php 
-	// Code from StackOverflow, to prevent users from directly accessing this file via url 
-	if(!isset($_SERVER['HTTP_REFERER'])){
-	    // redirect them to your desired location
-	    header('location: index.php');
-	    exit;
+	// DOCUMENTATION: 
+	// ------------------------------------------------------------------------------
+	// Created: JY 2017-08-24
+	// ------------------------------------------------------------------------------
+	// Purpose of file: API calls to DigitalBiblePlatform to populate dropdowns, etc. based on hidden input field 
+	// ------------------------------------------------------------------------------
+	// URL Params:
+	// 		idp = true/false (true/false to determine if populating drop down data)
+	//				
+	//		
+	// ------------------------------------------------------------------------------
+
+
+
+	// Only can access the page through ajax request from index.php 
+	if(!$_SERVER['HTTP_X_REQUESTED_WITH'])
+	{
+	   header("HTTP/1.0 403 Forbidden");
+	   exit;
 	}
+	
 ?>
