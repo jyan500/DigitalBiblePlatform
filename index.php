@@ -28,3 +28,36 @@
 		
 	</body>
 </html>
+
+<script>
+	$(document).ready(function(){
+		$.ajax({
+			url: "apicalls.php",
+			data:  {
+				idp: "true"
+			},
+			type: "GET",
+			dataType: "json",
+		})
+		.done(function(json){
+			console.log(json);
+			if (json){
+				// iterate through the json array 
+				for (var i= 0; i < json.length; i++){
+					var book = json[i].book_name;
+
+					$("<option>").text(book).appendTo($("#testDatalist"));
+				}
+			}
+		})
+		.fail(function(xhr, status, errorThrown){
+			alert("There was a problem in the request");
+			console.log("Error: " + errorThrown);
+			console.log("Status: " + status);
+			console.dir(xhr);
+		})
+		.always(function(xhr){
+			alert("The request is complete");
+		})
+	});
+</script>
