@@ -13,7 +13,7 @@
 	<!-- Page Content -->
 	<body>
 		<div class = "w3-panel w3-teal w3-round w3-mobile">
-			<p> Welcome to the Digital Bible Platform App </p>
+			<h1> Welcome to the Digital Bible Platform App </h1>
 		</div>
 		
 		<!-- Form -->
@@ -51,13 +51,13 @@
 			}
 		})
 		.fail(function(xhr, status, errorThrown){
-			alert("There was a problem in the request");
+			// alert("There was a problem in the request");
 			console.log("Error: " + errorThrown);
 			console.log("Status: " + status);
 			console.dir(xhr);
 		})
 		.always(function(xhr){
-			alert("The request is complete");
+			// alert("The request is complete");
 		})
 	});
 </script>

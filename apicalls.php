@@ -18,6 +18,8 @@
 	$service_url = "";
 
 	// VALIDATION
+	// ini_set('display_errors', 'On');
+	// error_reporting(E_ALL | E_STRICT);
 
 	// Only can access the page through ajax request from index.php 
 	if(!isAjax())
@@ -27,7 +29,7 @@
 	}
 
 	// GET URL PARAMS AND DEFINE URL FOR API REQUEST
-
+	// echo "Hello World";
 	$lcIsDropDown = $_REQUEST["idp"];
 
 	if (isset($lcIsDropDown) ){
@@ -35,13 +37,21 @@
 		$service_url = "$GET_BOOK_URL?key=$API_KEY&dam_id=$BOOK_DAM_ID&v=$API_VERSION";
 	}
 
-	// API CALL (Code from http://www.techflirt.com/php/php-curl/curl-examples.html)
-	$curl = curl_init($service_url);
-	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-	$result = curl_exec($curl);
-	curl_close($curl);
-	echo json_encode($result);
+	// API CALL (Code from http://www.techflirt.com/php/php-curl/curl-examples.html
+	$curl = curl_init();
 
+	// If curl session was successful
+	if ($curl == true){
+		curl_setopt($curl, CURLOPT_URL, $service_url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		$result = curl_exec($curl);
+		curl_close($curl);
+		echo $result;//return amazone autocomplete suggestion
+	}
+	else{
+		echo "curl initialization failed";
+	}
+	
 ?>
 
 <?php 
