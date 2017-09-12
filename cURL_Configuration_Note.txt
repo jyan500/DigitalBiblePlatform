@@ -1,0 +1,3 @@
+Note about extensions (i.e cURL, mysql) on PHP:
+Configuration file in C:/Windows, and move the 
+desired extension into system32 folder.
