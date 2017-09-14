@@ -41,6 +41,11 @@
 					<p><button class = "w3-button w3-teal w3-mobile">Go</button></p>
 				</form>
 			</div>
+			<!--- add the text from the ajax request into a paragraph element, still need to add the verse numbers -->
+			<div id = "txtblock" class = "w3-container w3-center w3-padding w3-mobile" style = "height:300px;display:none">
+				<h2 id = "textheader"></h2>
+				<p id = "bibletxt"  style = "line-height:30px"></p>
+			</div>
 		</div>
 		
 		
@@ -56,8 +61,7 @@
 		$.ajax({
 			url: "apicalls.php",
 			data:  {
-				idp: "true",
-				bid: ""
+				idp: "true"
 			},
 			type: "GET",
 			dataType: "json",
@@ -129,28 +133,45 @@
 
 
 	$("#choosechapter").submit(function(){
+
 		curr_chapter_id = $("#chapterdatalist").find("option:selected").attr("id");
 		curr_dam_id = damIDBookMap[curr_book_id];
+
+		//alert("debugging ajax, bid: " + curr_book_id + " cid: " + curr_chapter_id + " dam_id: " + curr_dam_id);
+		event.preventDefault(); // prevent the actual form from submitting and reloading the page
 		$.ajax({
 				url: "apicalls.php",
 				data: {
-					idp: "false",
 					bid: curr_book_id,
 					cid: curr_chapter_id,
-					curr_dam_id: dam_id
+					dam_id: curr_dam_id
 				},
 				type: "GET",
 				dataType: "json"
 			})	
 			.done(function(json){
+				//alert(json);
 				if (json){
 					// create a new paragraph element
-					verseText = $("<p>");
+					verseText = $("#bibletxt");
+					textheader = $("#textheader");
+					// if the user selects a different chapter, delete previous verses and show the new one 
+					if (verseText.text != "" && textheader.text != ""){
+						verseText.empty();
+						textheader.empty();
+					}
+					// set the header of the text to be chapter title
+					textheader.append(json[0].chapter_title);
+
 					for (var i = 0; i < json.length; i++){
 						// append the verse text to the paragraph element
-						verseText.append(json[i].verse_text);
+						verseText.append("<span class='verse'><span class='verse-number'><sup>" + 
+									json[i].verse_id + "</sup></span>" + json[i].verse_text + "</span>");
+						//verseText.append(json[i].verse_text);
 					}
+					
 				}
+				$("#txtblock").show();
 
 			})
 			.fail(function(xhr, status, errorThrown){
@@ -162,5 +183,7 @@
 			.always(function(xhr){
 
 			})
+
+		
 	})
 </script>
