@@ -41,22 +41,42 @@
 					<p><button class = "w3-button w3-teal w3-mobile">Go</button></p>
 				</form>
 			</div>
+			<div id = "buttonbar" class = "w3-bar w3-round w3-border w3-padding" style = "display:none">
+				<a id = "prevbutton" class = "w3-button">&#10094; Previous Chapter</a>
+				<a id = "nextbutton" class = "w3-button w3-right">Next Chapter &#10095;</a> 
+			</div>
 			<!--- add the text from the ajax request into a paragraph element, still need to add the verse numbers -->
-			<div id = "txtblock" class = "w3-container w3-center w3-padding w3-mobile" style = "height:300px;display:none">
+			<div id = "txtblock" class = "w3-container w3-center w3-mobile w3-margin" style = "display:none">
 				<h2 id = "textheader"></h2>
 				<p id = "bibletxt"  style = "line-height:30px"></p>
 			</div>
 		</div>
 		
 		
+		
 	</body>
 </html>
 
 <script>
+
 	// Maps the book_id to the number of chapters
 	var chapterBookMap = {};
+
 	// Maps the book_id to the dam_id for that specific book
 	var damIDBookMap = {};
+
+	// USE the same book_id when receiving verses below
+	var curr_book_id = "";
+
+	// current chapter_id
+	var curr_chapter_id = 0;
+
+	// current dam_id
+	var curr_dam_id = "";
+
+	// current number of chapters for a given book
+	var numChapters = 0;
+
 	$(document).ready(function(){
 		$.ajax({
 			url: "apicalls.php",
@@ -99,8 +119,6 @@
 		})
 	});
 
-	// USE the same book_id when receiving verses below
-	var curr_book_id = "";
 
 	//Populate the dropdown so user can select the chapter for the chosen book
 	$("#bookdatalist").change(function(){
@@ -116,7 +134,7 @@
 			}
 				
 			// populate the drop down for chapters
-			var numChapters = chapterBookMap[curr_book_id];
+			numChapters = chapterBookMap[curr_book_id];
 			for (var i = 0; i < numChapters; i++){
 				// Append the numbers 1 to numChapters 
 				var newOptionNode = $("<option>").text(i+1);	
@@ -132,19 +150,47 @@
 
 
 
-	$("#choosechapter").submit(function(){
-
+	$("#choosechapter").on("submit", function(e){
 		curr_chapter_id = $("#chapterdatalist").find("option:selected").attr("id");
 		curr_dam_id = damIDBookMap[curr_book_id];
+		getVerses(e, curr_chapter_id, curr_dam_id);
+		//alert("curr_chapter_id: " + curr_chapter_id);
+	})
+
+
+	$("#prevbutton").on("click", function(e){
+		if (curr_chapter_id != 1){
+			curr_chapter_id = parseInt(curr_chapter_id) - 1;
+			//alert("curr_chapter_id: " + curr_chapter_id);
+		}
+		getVerses(e, curr_chapter_id, curr_dam_id);
+	})
+
+	$("#nextbutton").on("click", function(e){
+		if (curr_chapter_id < numChapters){
+
+			//alert("before addition: " + curr_chapter_id);
+			// you need to parse int because the + operator in javascript is overloaded
+			// for both string and integer concatenation (converts to string)
+			// i.e 1 + '1' = '11' (does string concatenation)
+
+			curr_chapter_id = parseInt(curr_chapter_id) + 1;
+			//alert("curr_chapter_id: " + curr_chapter_id);
+		}
+		getVerses(e, curr_chapter_id, curr_dam_id);
+	})
+
+	// gets the verses given the chapter, to be used as a callback for js event
+	function getVerses(e, chapter_id, dam_id){
 
 		//alert("debugging ajax, bid: " + curr_book_id + " cid: " + curr_chapter_id + " dam_id: " + curr_dam_id);
-		event.preventDefault(); // prevent the actual form from submitting and reloading the page
+		e.preventDefault(); // prevent the actual form from submitting and reloading the page
 		$.ajax({
 				url: "apicalls.php",
 				data: {
-					bid: curr_book_id,
-					cid: curr_chapter_id,
-					dam_id: curr_dam_id
+					bid: curr_book_id, // curr_book_id is global in the <script> scope
+					cid: chapter_id,
+					dam_id: dam_id
 				},
 				type: "GET",
 				dataType: "json"
@@ -172,6 +218,28 @@
 					
 				}
 				$("#txtblock").show();
+				$("#buttonbar").show();
+
+				// determine if button needs to be disabled based on the number of chapters
+				// in given book
+				if (curr_chapter_id == 1){
+					// disable the prev button
+					$("#prevbutton").disabled = true;	
+					$("#prevbutton").addClass("w3-disabled");
+				}
+				else if (curr_chapter_id == numChapters){
+					// disable the next button
+					$("#nextbutton").disabled = true;
+					$("#nextbutton").addClass("w3-disabled");
+				}
+				else{
+					// enable both buttons
+					$("#prevbutton").disabled = false;
+					$("#prevbutton").removeClass("w3-disabled");
+					$("#nextbutton").disabled = false;
+					$("#nextbutton").removeClass("w3-disabled");
+
+				}
 
 			})
 			.fail(function(xhr, status, errorThrown){
@@ -183,7 +251,5 @@
 			.always(function(xhr){
 
 			})
-
-		
-	})
+	}
 </script>
