@@ -12,6 +12,7 @@
 	// ------------------------------------------------------------------------------
 	
 	// DEFINE CONSTANTS
+	$API_KEY_ESV_BIBLE = "dd5880d2c7212f26";
 	$API_KEY = "3519f5a27b814b79ded7c05507de8cbd";
 	$BOOK_DAM_ID = "ENGESV";
 	$API_VERSION = 2;

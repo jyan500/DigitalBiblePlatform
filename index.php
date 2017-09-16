@@ -9,12 +9,31 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 	</head>
-	
-	<!-- Page Content -->
+
 	<body>
+
+		<!-- Side Bar -->
+		<div id = "sidebar" class = "w3-sidebar w3-bar-block w3-animate-left" style = "display:none;z-index:5">
+
+			<!-- close button -->
+			<button id = "closesidebar" class = "w3-bar-item w3-button w3-large" onclick = "closeSideBarNav()">
+				Close &times;
+			</button>
+			<a href = "#" class = "w3-bar-item w3-button">test</a>
+			<a href = "#" class = "w3-bar-item w3-button">test</a>
+			<a href = "#" class = "w3-bar-item w3-button">test</a>
+		</div>	
+
+		<!-- Overlay Effect -->
+		<div id = "overlay" class = "w3-overlay w3-animate-opacity" style = "cursor:pointer" onclick = "closeSideBarNav()">
+		</div>
+
+		<!-- Page content -->
 		<div class = "w3-container">
 			<div class = "w3-panel w3-teal w3-round w3-mobile">
 				<h1> Welcome to the Digital Bible Platform App </h1>
+				<!-- open hamburger button -->
+				<button id = "opensidebar" class = "w3-button w3-teal w3-xxlarge" onclick = "openSideBarNav()">&#9776;</button>
 			</div>
 			<!-- Form -->
 			<!-- Form GET request using AJAX, action is jquery event -->
@@ -46,7 +65,7 @@
 				<a id = "nextbutton" class = "w3-button w3-right">Next Chapter &#10095;</a> 
 			</div>
 			<!--- add the text from the ajax request into a paragraph element, still need to add the verse numbers -->
-			<div id = "txtblock" class = "w3-container w3-center w3-mobile w3-margin" style = "display:none">
+			<div id = "txtblock" class = "w3-container w3-center w3-mobile" style = "display:none">
 				<h2 id = "textheader"></h2>
 				<p id = "bibletxt"  style = "line-height:30px"></p>
 			</div>
@@ -154,7 +173,7 @@
 		curr_chapter_id = $("#chapterdatalist").find("option:selected").attr("id");
 		curr_dam_id = damIDBookMap[curr_book_id];
 		getVerses(e, curr_chapter_id, curr_dam_id);
-		//alert("curr_chapter_id: " + curr_chapter_id);
+		alert("curr_chapter_id: " + curr_chapter_id);
 	})
 
 
@@ -178,7 +197,21 @@
 			//alert("curr_chapter_id: " + curr_chapter_id);
 		}
 		getVerses(e, curr_chapter_id, curr_dam_id);
+
 	})
+
+	// open the sidebar and overlay
+	function openSideBarNav(){
+		$("#sidebar").show();
+		$("#overlay").show();
+	}
+
+	// close the sidebar and overlay
+	function closeSideBarNav(){
+		$("#sidebar").hide();
+		$("#overlay").hide();
+	}
+
 
 	// gets the verses given the chapter, to be used as a callback for js event
 	function getVerses(e, chapter_id, dam_id){
@@ -227,12 +260,13 @@
 					$("#prevbutton").disabled = true;	
 					$("#prevbutton").addClass("w3-disabled");
 				}
-				else if (curr_chapter_id == numChapters){
+				// if the book is only one chapter long
+				if (curr_chapter_id == numChapters){
 					// disable the next button
 					$("#nextbutton").disabled = true;
 					$("#nextbutton").addClass("w3-disabled");
 				}
-				else{
+				if (curr_chapter_id != 1 && curr_chapter_id < numChapters){
 					// enable both buttons
 					$("#prevbutton").disabled = false;
 					$("#prevbutton").removeClass("w3-disabled");
