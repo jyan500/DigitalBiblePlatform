@@ -10,7 +10,7 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 		<!-- import BibleProject.js -->
-		<script src = "BibleProject.js"></script>
+		<script src = "index.js"></script>
 
 	</head>
 
@@ -40,7 +40,7 @@
 		</div>
 
 		<!--- homepage -->
-		<div id = "hometab" class = "content w3-container w3-animate-fade">
+		<div id = "hometab" class = "content w3-container">
 			<!-- Form GET request using AJAX, action is jquery event -->
 			<div class = "w3-container w3-padding w3-card-4 w3-mobile w3-border w3-margin-top" style="height:300px">
 				<form id = "choosebible" class = "w3-center" action = "" > 
@@ -80,14 +80,14 @@
 		</div>
 
 		<!-- Memorize Page (In Progress) -->
-		<div id = "memorizetab" class = "content w3-container w3-animate-fade" style = "display:none">
+		<div id = "memorizetab" class = "content w3-container" style = "display:none">
 			<div class = "w3-panel w3-teal">
 				<h1> Memorize Page is in Progress... </h1>
 			</div>
 		</div>
 
 		<!-- About Page  (Copyright here) -->
-		<div id = "abouttab" class = "content w3-container w3-animate-fade" style = "display:none">
+		<div id = "abouttab" class = "content w3-container" style = "display:none">
 			<div class = "w3-panel w3-teal">
 				<h1> Copyright: Fair Use of the Digital Bible Platform API (DBT.io) </h1>
 			</div>	
