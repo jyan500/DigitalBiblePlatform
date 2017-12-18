@@ -26,7 +26,6 @@ $(document).ready(function(){
 		dataType: "json",
 	})
 	.done(function(json){
-		// console.log(json);
 		if (json){
 			// iterate through the json array 
 			for (var i= 0; i < json.length; i++){
@@ -48,7 +47,7 @@ $(document).ready(function(){
 		}
 	})
 	.fail(function(xhr, status, errorThrown){
-		alert("There was a problem in the request");
+		alert("There was a problem in the request to getting the books");
 		console.log("Error: " + errorThrown);
 		console.log("Status: " + status);
 		console.dir(xhr);
@@ -92,7 +91,6 @@ $(document).ready(function(){
 		curr_chapter_id = $("#chapterdatalist").find("option:selected").attr("id");
 		curr_dam_id = damIDBookMap[curr_book_id];
 		getVerses(e, curr_chapter_id, curr_dam_id);
-		//alert("curr_chapter_id: " + curr_chapter_id);
 	})
 
 
@@ -115,6 +113,21 @@ $(document).ready(function(){
 			//alert("curr_chapter_id: " + curr_chapter_id);
 		}
 		getVerses(e, curr_chapter_id, curr_dam_id);
+
+	})
+	$("#richtextbutton").on("click", function(e){
+		// Toggle the textblock where the verses are back and forth
+		// to make room for the rich text editor
+		var toggleWidth = $("#txtblock").hasClass('shrinked') ? "100%" : "50%"; 
+		// map the 'shrinked' class name with the width
+		// and toggle
+		console.log(toggleWidth);
+		$("#txtblock").animate({width: toggleWidth}, 100, 
+			function(){
+				$("#txtblock").toggleClass('shrinked');	
+				
+			});
+		//alert(toggleWidth);
 
 	})
 
@@ -146,7 +159,6 @@ function closeSideBarNav(){
 	$("#sidebar").fadeOut("fast");
 	$("#overlay").fadeOut("fast");
 }
-
 
 // gets the verses given the chapter, to be used as a callback for js event
 function getVerses(e, chapter_id, dam_id){
@@ -211,7 +223,7 @@ function getVerses(e, chapter_id, dam_id){
 
 		})
 		.fail(function(xhr, status, errorThrown){
-			alert("There was a problem in the request");
+			alert("There was a problem in the request to get verses");
 			console.log("Error: " + errorThrown);
 			console.log("Status: " + status);
 			console.dir(xhr);	
