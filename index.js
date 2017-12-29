@@ -100,6 +100,8 @@ $(document).ready(function(){
 			//alert("curr_chapter_id: " + curr_chapter_id);
 		}
 		getVerses(e, curr_chapter_id, curr_dam_id);
+		$("#txtarea").val('');
+		// also clear the textform fields
 	})
 
 	$("#nextbutton").on("click", function(e){
@@ -111,25 +113,27 @@ $(document).ready(function(){
 			// i.e 1 + '1' = '11' (does string concatenat
 			curr_chapter_id = parseInt(curr_chapter_id) + 1;
 			//alert("curr_chapter_id: " + curr_chapter_id);
+			$("#txtarea").val('');
 		}
 		getVerses(e, curr_chapter_id, curr_dam_id);
 
 	})
-	$("#richtextbutton").on("click", function(e){
-		// Toggle the textblock where the verses are back and forth
-		// to make room for the rich text editor
-		var toggleWidth = $("#txtblock").hasClass('shrinked') ? "100%" : "50%"; 
-		// map the 'shrinked' class name with the width
-		// and toggle
-		console.log(toggleWidth);
-		$("#txtblock").animate({width: toggleWidth}, 100, 
-			function(){
-				$("#txtblock").toggleClass('shrinked');	
-				
-			});
-		//alert(toggleWidth);
+	// $("#richtextbutton").on("click", function(e){
+	// 	// Toggle the textblock where the verses are back and forth
+	// 	// to make room for the rich text editor
+	// 	var toggleWidth = $("#txtblock").hasClass('shrinked') ? "100%" : "50%"; 
+	// 	// map the 'shrinked' class name with the width
+	// 	// and toggle
+	// 	console.log(toggleWidth);
+	// 	$("#txtblock").animate({width: toggleWidth}, 100, 
+	// 		function(){
+	// 			$("#txtblock").toggleClass('shrinked');	
 
-	})
+	// 	});
+	// 	$("#tinymce").toggle();
+	// 	//alert(toggleWidth);
+
+	// })
 
 	
 });
@@ -198,6 +202,15 @@ function getVerses(e, chapter_id, dam_id){
 				
 			}
 			$("#textcontent").show();
+
+			// set the height of the text area to the height of the paragraph text dynamically
+			$("#txtarea").css("height","200px");
+
+			var counter = $("#txtarea").height();
+			console.log("textarea: " + counter);
+			var txtHeight = $("#bibletxt").height();
+			$("#txtarea").animate({height:txtHeight}, 500);
+			console.log($("#txtarea").height());
 
 			// determine if button needs to be disabled based on the number of chapters
 			// in given book
