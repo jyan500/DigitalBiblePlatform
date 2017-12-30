@@ -17,6 +17,8 @@ var curr_dam_id = "";
 var numChapters = 0;
 
 $(document).ready(function(){
+
+	// get the book_ids, number of chapters and dam_id for every book of the bible
 	$.ajax({
 		url: "apicalls.php",
 		data:  {
@@ -86,14 +88,15 @@ $(document).ready(function(){
 	})
 
 
-
+	//select the chapter from the drop down and display the desired content
 	$("#choosechapter").on("submit", function(e){
 		curr_chapter_id = $("#chapterdatalist").find("option:selected").attr("id");
 		curr_dam_id = damIDBookMap[curr_book_id];
 		getVerses(e, curr_chapter_id, curr_dam_id);
 	})
 
-
+	// when clicking prev button, update with the previous chapter
+	// also clear the text field for the text area
 	$("#prevbutton").on("click", function(e){
 		if (curr_chapter_id != 1){
 			curr_chapter_id = parseInt(curr_chapter_id) - 1;
@@ -104,6 +107,8 @@ $(document).ready(function(){
 		// also clear the textform fields
 	})
 
+	// when clicking next button, update with next chapter  
+	// also clear the text field for the text area
 	$("#nextbutton").on("click", function(e){
 		if (curr_chapter_id < numChapters){
 
@@ -118,6 +123,16 @@ $(document).ready(function(){
 		getVerses(e, curr_chapter_id, curr_dam_id);
 
 	})
+
+	// make an ajax request to update the database
+	$("#usertxt").on("submit", function(e){
+		// formerly a post back, but change to ajax (may keep as post back)
+		// console.log("curr_chapter_id" + curr_chapter_id);
+		// console.log("curr_book_id" + curr_book_id);
+		submitText(e);
+
+	})
+
 	// $("#richtextbutton").on("click", function(e){
 	// 	// Toggle the textblock where the verses are back and forth
 	// 	// to make room for the rich text editor
@@ -138,6 +153,8 @@ $(document).ready(function(){
 	
 });
 
+
+// open the tab content 
 function openTab(event, tabID){
 	// return all the tab content
 	var listOfContent = $(".content");
@@ -246,3 +263,36 @@ function getVerses(e, chapter_id, dam_id){
 		})
 } 
 
+// submit the data to php file index_postf.php, where the post file will insert data to mysql
+function submitText(e){
+	// prevent the page from reloading from submitting the text area form
+	e.preventDefault();
+	var txtarea = $("#txtarea").val();
+	if (txtarea == ""){
+		alert("You must insert text before you submit");
+		return;
+	}
+	// ajax request to php file
+
+	$.ajax({
+			url: "index_postf.php",
+			data: {
+				txt: txtarea, 
+				bid: curr_book_id, // curr_book_id is global in the <script> scope
+				cid: curr_chapter_id,
+				// also the user_id (later on, we'll add this in)
+			},
+			type: "POST",
+	})	
+	.done(function(result){
+		// alert the user that data is inserted successfully
+		alert(result);
+	})
+	.fail(function(xhr, status, errorThrown){
+		alert("there was an error in the request");
+		alert(xhr);
+	})
+	.always(function(xhr){
+
+	})
+}

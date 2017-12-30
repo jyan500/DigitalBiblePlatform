@@ -1,4 +1,5 @@
 
+
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -80,12 +81,16 @@
 					<h2 class="w3-center"id = "textheader"></h2>
 					<p id = "bibletxt" style = "line-height:30px"></p>
 				</div>
-				<form method = "post" action = "index_postf.php" id = "usertxt">
+				<form method = "post" action = "" id = "usertxt">
 					<div class = "w3-container w3-half w3-mobile">
 						<h2 class="w3-center">Notes</h2>
 						<textarea form = "usertxt" name = "textbox" id = "txtarea" class = "w3-padding" style="width:100%" placeholder="Type Here!"></textarea>
+						<!-- use ajax instead to insert into the database -->
+						<!-- <input id = "hinputchapter" type="hidden" name="chapter_id" value=""> 
+						<input id = "hinputbook" type ="hidden" name="book_id" value=""> -->
 						<p><input type ="submit" class = "w3-button w3-teal w3-mobile"></button></p>
 					</div>
+
 				</form>
 			</div>
 
@@ -109,5 +114,4 @@
 		
 	</body>
 </html>
-
 
