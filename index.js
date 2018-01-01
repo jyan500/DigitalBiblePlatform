@@ -132,7 +132,12 @@ $(document).ready(function(){
 		submitText(e);
 
 	})
-
+	$("#openmodal").on("click", function(){
+			$("#modal").show();	
+	})
+	$("#closemodal").on("click", function(){
+		$("#modal").hide();
+	})
 	// $("#richtextbutton").on("click", function(e){
 	// 	// Toggle the textblock where the verses are back and forth
 	// 	// to make room for the rich text editor
@@ -161,11 +166,12 @@ function openTab(event, tabID){
 	// hide all tab content
 	for (var i = 0; i < listOfContent.length; i++){
 		var childID = listOfContent[i].id;
-		//alert(childID);
 		$("#" + childID).hide();
 	}
 	//alert(tabID);
 	$("#" + tabID).fadeIn("fast");
+	console.log($("#" + tabID).css("display"));
+	//$("#" + tabID).show();
 
 }
 
@@ -269,7 +275,11 @@ function submitText(e){
 	e.preventDefault();
 	var txtarea = $("#txtarea").val();
 	if (txtarea == ""){
-		alert("You must insert text before you submit");
+		$("#errorbar").addClass("show");
+		setTimeout(function(){
+			$("#errorbar").removeClass("show");	
+
+		}, 3000);
 		return;
 	}
 	// ajax request to php file
@@ -286,7 +296,14 @@ function submitText(e){
 	})	
 	.done(function(result){
 		// alert the user that data is inserted successfully
-		alert(result);
+		//alert(result);
+		// show snackbar for 3 s, then remove it
+		$("#successbar").addClass("show");
+
+		setTimeout(function(){
+			$("#successbar").removeClass("show");
+		}, 3000);
+
 	})
 	.fail(function(xhr, status, errorThrown){
 		alert("there was an error in the request");
