@@ -30,6 +30,7 @@
 				<a class = "tablink w3-bar-item w3-button w3-animate-opacity" href = "index.php">Home</a>
 				<a class = "tablink w3-bar-item w3-button w3-animate-opacity" href = "memorize.php">Memorize</a>
 				<a class = "tablink w3-bar-item w3-button w3-animate-opacity" href = "about.php">About</a>
+				<a class = "tablink w3-bar-item w3-button w3-animate-opacity" href = "signup.php">Signup</a>
 				<a id = "openmodal" class = "w3-bar-item w3-button w3-animate-opacity">Login</a>
 
 				<!-- As of 1/4/18, will not use "display:block" style with js, and instead redirect to other links -->

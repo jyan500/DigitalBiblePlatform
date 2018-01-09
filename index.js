@@ -132,12 +132,7 @@ $(document).ready(function(){
 		submitText(e);
 
 	})
-	$("#openmodal").on("click", function(){
-			$("#modal").show();	
-	})
-	$("#closemodal").on("click", function(){
-		$("#modal").hide();
-	})
+	
 	// $("#richtextbutton").on("click", function(e){
 	// 	// Toggle the textblock where the verses are back and forth
 	// 	// to make room for the rich text editor
@@ -159,33 +154,6 @@ $(document).ready(function(){
 });
 
 
-// open the tab content 
-function openTab(event, tabID){
-	// return all the tab content
-	var listOfContent = $(".content");
-	// hide all tab content
-	for (var i = 0; i < listOfContent.length; i++){
-		var childID = listOfContent[i].id;
-		$("#" + childID).hide();
-	}
-	//alert(tabID);
-	$("#" + tabID).fadeIn("fast");
-	console.log($("#" + tabID).css("display"));
-	//$("#" + tabID).show();
-
-}
-
-// open the sidebar and overlay
-function openSideBarNav(){
-	$("#sidebar").show();
-	$("#overlay").show();
-}
-
-// close the sidebar and overlay
-function closeSideBarNav(){
-	$("#sidebar").fadeOut("fast");
-	$("#overlay").fadeOut("fast");
-}
 
 // gets the verses given the chapter, to be used as a callback for js event
 function getVerses(e, chapter_id, dam_id){
